@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/">Home</a>|<a href="/flights">Flights</a>|<a href="/flights/new">Add New Flight</a>
+    <section id="show-page">
+        <div>Flight Number: </div>
+        <div><%= flight.flightNo %> </div>
+        <div>Airline: </div>
+        <div><%= flight.airline %></div>
+        <div>Airport:</div>
+        <div><%= flight.airport %></div>
+        <div>Departure:</div>
+        <div><%= flight.departs %></div>
+        <% flight.destination.forEach(function(d) { %>
+            <div>Destination:</div>
+            <div><%= d.airport %></div>
+            <div>Arrival:</div>
+            <div><%= d.arrival %></div>
+            <form action="/destinations/<%= d._id %>?_method=DELETE" method="POST" class="delete-form">
+                <button type="submit">X</button>
+                </form>
+       <% }); %>
+        <div>Tickets:</div>
+        <div><% tickets.forEach(function(t) { %>
+            <div>Seat: <%= t.seat%></div>
+            <div>Price: <%= t.price%></div>
+            -----------------
+        </div>
+        <% }); %>
+        <div><a href="/flights/<%= flight._id %>/tickets/new">Click to add a new ticket</a></div>
+    </section>
+    <form id="add-destination-form" method="POST" action="/flights/<%= flight._id %>/destinations">
+    <label>Airport:</label>
+    <select name="airport">
+        <option value="AUS">AUS</option>
+        <option value="DFW">DFW</option>
+        <option value="DEN">DEN</option>
+        <option value="LAX">LAX</option>
+        <option value="SAN">SAN</option>
+    </select>
+    <label>Arrival:</label>
+    <input type="datetime-local" name="arrival">
+    <input type="submit" value="Add Destination">
+    </form>
+</body>
+</html>
